@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Revelure Internal App</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+  <style>
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e2e8f0;
+      --shadow: 0 14px 30px rgba(15,23,42,.08);
+
+      --accent:#2563eb;
+      --accent2:#7c3aed;
+
+      --danger:#dc2626;
+      --ok:#16a34a;
+      --warn:#d97706;
+
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 92px;
+    }
+
+    header{
+      position: sticky;
+      top:0;
+      z-index: 40;
+      background: rgba(244,246,251,.92);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:14px 14px 10px;
+    }
+    .headRow{
+      max-width:560px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:14px;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow: var(--shadow);
+      flex:0 0 auto;
+    }
+    .brandText{min-width:0}
+    .brandText h1{
+      margin:0;
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brandText p{
+      margin:2px 0 0;
+      font-size:11px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .toolBtn{
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      font-weight:900;
+      font-size:12px;
+      padding:10px 12px;
+      border-radius:16px;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,.04);
+    }
+
+    .container{
+      max-width:560px;
+      margin:0 auto;
+      padding:14px;
+    }
+
+    .sectionTitle{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:10px;
+      margin:8px 2px 10px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.2px;
+      font-weight:950;
+    }
+    .sectionTitle span{
+      font-size:11px;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:12px;
+    }
+
+    .kpiGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin:10px 0 12px;
+    }
+    .kpi{
+      border:1px solid var(--border);
+      border-radius: 18px;
+      padding:12px;
+      background:#fff;
+      box-shadow: 0 8px 18px rgba(0,0,0,.03);
+    }
+    .kpi .num{font-size:22px;font-weight:950}
+    .kpi .lab{font-size:11px;color:var(--muted);font-weight:900;margin-top:2px}
+
+    label{
+      display:block;
+      margin:12px 0 6px;
+      font-size:11px;
+      color:var(--muted);
+      font-weight:950;
+    }
+    input, select, textarea{
+      width:100%;
+      padding:12px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:#fff;
+      outline:none;
+      font-size:13px;
+    }
+    textarea{min-height:88px; resize:vertical}
+    input:focus,select:focus,textarea:focus{
+      border-color: rgba(37,99,235,.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.14);
+    }
+
+    .btnRow{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+    }
+    .btn{
+      flex:1;
+      border:none;
+      border-radius:18px;
+      padding:12px;
+      font-weight:950;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btnPrimary{
+      color:#fff;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+    }
+    .btnSoft{
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+    }
+    .btnDanger{
+      background:#fff1f2;
+      border:1px solid #fecdd3;
+      color:#9f1239;
+    }
+
+    .chipRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:950;
+      cursor:pointer;
+    }
+    .chip.active{
+      color:#fff;
+      border-color:transparent;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+    }
+
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .item{
+      border:1px solid var(--border);
+      border-radius: 20px;
+      padding:12px;
+      background:#fff;
+      box-shadow: 0 10px 20px rgba(0,0,0,.04);
+    }
+    .itemTop{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .title{
+      font-weight:950;
+      font-size:13px;
+    }
+    .sub{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:850;
+      line-height:1.35;
+    }
+    .tag{
+      font-size:11px;
+      font-weight:950;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      white-space:nowrap;
+    }
+    .tNew{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+    .tContacted{background:#fffbeb;border-color:#fde68a;color:#92400e}
+    .tInterested{background:#ecfdf5;border-color:#bbf7d0;color:#166534}
+    .tNot{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+    .tConverted{background:#f5f3ff;border-color:#ddd6fe;color:#5b21b6}
+    .tDone{background:#ecfdf5;border-color:#bbf7d0;color:#166534}
+
+    .miniRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .miniBtn{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:16px;
+      padding:10px 10px;
+      font-size:12px;
+      font-weight:950;
+      cursor:pointer;
+    }
+    .miniBtn.primary{
+      border:none;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+    }
+    .miniBtn.danger{
+      background:#fff1f2;
+      border:1px solid #fecdd3;
+      color:#9f1239;
+    }
+
+    .note{
+      margin-top:10px;
+      border:1px dashed var(--border);
+      background:#f8fafc;
+      color:var(--muted);
+      border-radius:18px;
+      padding:10px;
+      font-size:11px;
+      font-weight:850;
+      line-height:1.35;
+    }
+
+    .bottomNav{
+      position:fixed;
+      bottom:0; left:0; right:0;
+      z-index:60;
+      background: rgba(244,246,251,.96);
+      backdrop-filter: blur(12px);
+      border-top:1px solid var(--border);
+      padding:10px 10px 14px;
+    }
+    .navWrap{
+      max-width:560px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      gap:10px;
+    }
+    .navBtn{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:18px;
+      padding:10px 6px;
+      text-align:center;
+      font-size:11px;
+      font-weight:950;
+      cursor:pointer;
+    }
+    .navBtn.active{
+      color:#fff;
+      border-color:transparent;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+    }
+
+    .modalBackdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.38);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:80;
+    }
+    .modal{
+      width:min(560px,100%);
+      background:#fff;
+      border-radius:20px;
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .modal h3{margin:0 0 10px;font-size:14px;font-weight:950}
+    .modal p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.45}
+    .hide{display:none !important}
+
+    /* small top sync badge */
+    .badge{
+      font-size:11px;
+      font-weight:950;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dot{width:8px;height:8px;border-radius:999px;background:#a3a3a3}
+    .dot.ok{background: var(--ok)}
+    .dot.warn{background: var(--warn)}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="headRow">
+    <div class="brand">
+      <div class="logo"></div>
+      <div class="brandText">
+        <h1>Revelure Internal App</h1>
+        <p>Dashboard • Leads • To-Do • Vault</p>
+      </div>
+    </div>
+    <button class="toolBtn" onclick="openTools()">⚙ Tools</button>
+  </div>
+</header>
+
+<div class="container">
+  <section id="screen-home"></section>
+  <section id="screen-leads" class="hide"></section>
+  <section id="screen-tasks" class="hide"></section>
+  <section id="screen-vault" class="hide"></section>
+</div>
+
+<div class="bottomNav">
+  <div class="navWrap">
+    <div class="navBtn active" data-tab="home" onclick="go('home')">🏠<br>Home</div>
+    <div class="navBtn" data-tab="leads" onclick="go('leads')">📌<br>Leads</div>
+    <div class="navBtn" data-tab="tasks" onclick="go('tasks')">✅<br>To-Do</div>
+    <div class="navBtn" data-tab="vault" onclick="go('vault')">🔒<br>Vault</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modalBackdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle">Modal</h3>
+    <div id="modalBody"></div>
+    <div class="btnRow" style="margin-top:12px;">
+      <button class="btn btnSoft" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =======================
+   CONFIG
+======================= */
+// ✅ later paste your deployed Apps Script webapp URL here:
+const API_URL = "https://script.google.com/macros/s/AKfycbwAlX9jdFp50noKCKjLNvHihunDNMbyI0wHC4NzIeUogMp4rfQf5qTlABEkhp6NJF32/exec";
+
+/* =======================
+   LOCAL CACHE STORAGE
+======================= */
+const KEY_LEADS_CACHE="revelure_cache_leads";
+const KEY_TASKS_CACHE="revelure_cache_tasks";
+const KEY_VAULT_CACHE="revelure_cache_vault";
+
+const KEY_USER="revelure_added_by";
+
+/* Vault PIN in app only (not saved to sheet) */
+let vaultPinSession = ""; // session pin only
+
+/* =======================
+   STATE
+======================= */
+let leads = load(KEY_LEADS_CACHE, []);
+let tasks = load(KEY_TASKS_CACHE, []);
+let vaultRows = load(KEY_VAULT_CACHE, []); // encrypted rows from sheet
+
+let leadFilter="All";
+let taskFilter="All";
+let dashboardDate="";
+
+let editLeadIndex=null;
+let editTaskIndex=null;
+
+let syncStatus="offline"; // offline | online
+
+/* =======================
+   INIT
+======================= */
+buildScreens();
+renderAll();
+go("home");
+
+/* =======================
+   UI BUILD
+======================= */
+function buildScreens(){
+  document.getElementById("screen-home").innerHTML = `
+    <div class="sectionTitle">
+      <h2>🌅 Dashboard</h2>
+      <span class="badge" id="syncBadge">
+        <span class="dot"></span>
+        <span id="syncText">Offline</span>
+      </span>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>📅 Select Date</h2>
+        <span id="todayText"></span>
+      </div>
+      <input id="dashDate" type="date" />
+      <div class="btnRow">
+        <button class="btn btnPrimary" onclick="applyDashboardDate()">✅ Apply</button>
+        <button class="btn btnSoft" onclick="setDashboardToday()">📍 Today</button>
+      </div>
+      <div class="btnRow">
+        <button class="btn btnSoft" onclick="syncAll()">🔄 Sync Now</button>
+        <button class="btn btnSoft" onclick="setAddedBy()">👤 Set Name</button>
+      </div>
+      <div class="note">
+        If internet is available, click <b>Sync Now</b> to pull latest sheet data.
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="kpiGrid">
+      <div class="kpi"><div class="num" id="kpiLeads">0</div><div class="lab">Total Leads</div></div>
+      <div class="kpi"><div class="num" id="kpiPending">0</div><div class="lab">Pending Tasks</div></div>
+      <div class="kpi"><div class="num" id="kpiToday">0</div><div class="lab">Tasks On Date</div></div>
+      <div class="kpi"><div class="num" id="kpiOverdue">0</div><div class="lab">Overdue</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>✅ Tasks For Selected Date</h2>
+        <span id="todayCount"></span>
+      </div>
+      <div class="list" id="todayList"></div>
+      <div class="note">📌 Follow-up calls → Add as task (example: “Call Ravi lead”).</div>
+    </div>
+  `;
+
+  document.getElementById("screen-leads").innerHTML = `
+    <div class="sectionTitle">
+      <h2>📌 Leads</h2>
+      <span id="leadCountTxt"></span>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>➕ Add / Edit Lead</h2>
+        <span>sync to sheet</span>
+      </div>
+
+      <label>Name *</label>
+      <input id="leadName" placeholder="Customer name">
+
+      <label>Phone *</label>
+      <input id="leadPhone" placeholder="10 digit number" inputmode="numeric">
+
+      <label>Area</label>
+      <input id="leadArea" placeholder="Example: Sahakarnagar">
+
+      <label>Status</label>
+      <select id="leadStatus">
+        <option>New Lead</option>
+        <option>Contacted</option>
+        <option>Interested</option>
+        <option>Not interested</option>
+        <option>Converted</option>
+      </select>
+
+      <label>Notes</label>
+      <textarea id="leadNotes" placeholder="Requirement / notes..."></textarea>
+
+      <div class="btnRow">
+        <button class="btn btnPrimary" onclick="saveLead()">💾 Save Lead</button>
+        <button class="btn btnSoft" onclick="clearLead()">↩ Clear</button>
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>🔎 Search & Filter</h2>
+        <span>find fast</span>
+      </div>
+
+      <input id="leadSearch" placeholder="Search name/phone/area" oninput="renderLeads()">
+      <div class="chipRow" id="leadChips"></div>
+    </div>
+
+    <div class="sectionTitle" style="margin-top:14px;">
+      <h2>📄 Lead List</h2>
+      <span>tap actions</span>
+    </div>
+    <div class="list" id="leadList"></div>
+  `;
+
+  document.getElementById("screen-tasks").innerHTML = `
+    <div class="sectionTitle">
+      <h2>✅ To-Do</h2>
+      <span id="taskCountTxt"></span>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>➕ Add / Edit Task</h2>
+        <span>sync to sheet</span>
+      </div>
+
+      <label>Task *</label>
+      <input id="taskTitle" placeholder="Example: Call customer">
+
+      <label>Due Date</label>
+      <input id="taskDue" type="date">
+
+      <label>Priority</label>
+      <select id="taskPriority">
+        <option>High</option>
+        <option selected>Medium</option>
+        <option>Low</option>
+      </select>
+
+      <label>Assigned</label>
+      <select id="taskAssign">
+        <option>Me</option>
+        <option>Friend</option>
+        <option>Both</option>
+      </select>
+
+      <label>Notes</label>
+      <textarea id="taskNotes" placeholder="Notes..."></textarea>
+
+      <div class="btnRow">
+        <button class="btn btnPrimary" onclick="saveTask()">💾 Save Task</button>
+        <button class="btn btnSoft" onclick="clearTask()">↩ Clear</button>
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>🔎 Search & Filter</h2>
+        <span>focus</span>
+      </div>
+
+      <input id="taskSearch" placeholder="Search task..." oninput="renderTasks()">
+      <div class="chipRow" id="taskChips"></div>
+    </div>
+
+    <div class="sectionTitle" style="margin-top:14px;">
+      <h2>📄 Task List</h2>
+      <span>tap actions</span>
+    </div>
+    <div class="list" id="taskList"></div>
+  `;
+
+  document.getElementById("screen-vault").innerHTML = `
+    <div class="sectionTitle">
+      <h2>🔒 Shared Vault</h2>
+      <span>PIN required</span>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>Enter Vault PIN</h2>
+        <span>same PIN for both</span>
+      </div>
+
+      <input id="vaultPinInput" type="password" placeholder="4-8 digit PIN" inputmode="numeric">
+      <div class="btnRow">
+        <button class="btn btnPrimary" onclick="setVaultPin()">✅ Unlock</button>
+        <button class="btn btnSoft" onclick="clearVaultPin()">🔒 Lock</button>
+      </div>
+
+      <div class="note">
+        Passwords are stored in Google Sheet as <b>encrypted text</b>. <br>
+        Without PIN nobody can read them.
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>➕ Add Secret</h2>
+        <span>sync to sheet</span>
+      </div>
+
+      <label>Title *</label>
+      <input id="vTitle" placeholder="Example: HDFC Netbanking">
+
+      <label>Category</label>
+      <select id="vCat">
+        <option>Bank</option>
+        <option>Password</option>
+        <option>UPI</option>
+        <option>Supplier</option>
+        <option>GST/Tax</option>
+        <option>Other</option>
+      </select>
+
+      <label>Username / ID</label>
+      <input id="vUser" placeholder="username/account/upi">
+
+      <label>Password/Secret *</label>
+      <input id="vSecret" type="password" placeholder="secret...">
+
+      <label>Notes</label>
+      <textarea id="vNotes" placeholder="optional notes"></textarea>
+
+      <div class="btnRow">
+        <button class="btn btnPrimary" onclick="saveVault()">💾 Save Secret</button>
+        <button class="btn btnSoft" onclick="clearVaultForm()">↩ Clear</button>
+      </div>
+
+      <div class="note">
+        IMPORTANT: First unlock vault by entering PIN (top section).
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="card">
+      <div class="sectionTitle">
+        <h2>🔎 Search Secret</h2>
+        <span>live list</span>
+      </div>
+
+      <input id="vaultSearch" placeholder="Search title/category/username" oninput="renderVaultList()">
+      <div class="btnRow">
+        <button class="btn btnSoft" onclick="syncVaultOnly()">🔄 Sync Vault</button>
+        <button class="btn btnSoft" onclick="renderVaultList()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div class="sectionTitle" style="margin-top:14px;">
+      <h2>📄 Vault List</h2>
+      <span>encrypted</span>
+    </div>
+
+    <div class="list" id="vaultList"></div>
+  `;
+
+  buildChips();
+}
+
+/* =======================
+   NAV
+======================= */
+function go(tab){
+  document.querySelectorAll("section[id^='screen-']").forEach(s=>s.classList.add("hide"));
+  document.getElementById("screen-"+tab).classList.remove("hide");
+
+  document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(`.navBtn[data-tab="${tab}"]`).forEach(b=>b.classList.add("active"));
+
+  if(tab==="home") renderHome();
+  if(tab==="leads") renderLeads();
+  if(tab==="tasks") renderTasks();
+  if(tab==="vault") renderVaultList();
+}
+
+/* =======================
+   DASHBOARD DATE
+======================= */
+function applyDashboardDate(){
+  const d=valOf("dashDate");
+  if(!d) return toast("Select date first");
+  dashboardDate=d;
+  renderHome();
+}
+function setDashboardToday(){
+  dashboardDate=todayStr();
+  setVal("dashDate",dashboardDate);
+  renderHome();
+}
+
+/* =======================
+   DASHBOARD
+======================= */
+function renderHome(){
+  if(!dashboardDate) dashboardDate=todayStr();
+
+  setText("todayText", `Selected: ${dashboardDate}`);
+
+  // date input live change
+  const dateInput=document.getElementById("dashDate");
+  if(dateInput){
+    dateInput.value=dashboardDate;
+    dateInput.onchange=()=>{
+      dashboardDate=dateInput.value||todayStr();
+      renderHome();
+    };
+  }
+
+  const selected=dashboardDate;
+  const pending=tasks.filter(t=>t.status!=="Done");
+  const dueOnDate=pending.filter(t=>t.due===selected);
+  const overdue=pending.filter(t=>t.due && t.due < selected);
+
+  setText("kpiLeads", leads.length);
+  setText("kpiPending", pending.length);
+  setText("kpiToday", dueOnDate.length);
+  setText("kpiOverdue", overdue.length);
+
+  setText("todayCount", dueOnDate.length ? `${dueOnDate.length} task(s)` : "No tasks");
+  const box=document.getElementById("todayList");
+  box.innerHTML = dueOnDate.length
+    ? dueOnDate.map(t=>taskItem(t,true)).join("")
+    : `<div class="note">No tasks on this date ✅</div>`;
+
+  updateSyncBadge();
+}
+
+/* =======================
+   LEADS
+======================= */
+function buildChips(){
+  const leadStatuses=["All","New Lead","Contacted","Interested","Not interested","Converted"];
+  document.getElementById("leadChips").innerHTML = leadStatuses.map((s,i)=>`
+    <div class="chip ${i===0?'active':''}" onclick="setLeadFilter('${s}', this)">${s}</div>
+  `).join("");
+
+  const taskFilters=["All","Due Today","Overdue","Done"];
+  document.getElementById("taskChips").innerHTML = taskFilters.map((s,i)=>`
+    <div class="chip ${i===0?'active':''}" onclick="setTaskFilter('${s}', this)">${s}</div>
+  `).join("");
+}
+
+function setLeadFilter(val, el){
+  leadFilter=val;
+  document.querySelectorAll("#leadChips .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+  renderLeads();
+}
+
+async function saveLead(){
+  const name=valOf("leadName");
+  const phone=valOf("leadPhone");
+  if(!name || !phone) return toast("Name & Phone required");
+
+  const lead={
+    name, phone,
+    area: valOf("leadArea"),
+    status: valOf("leadStatus"),
+    notes: valOf("leadNotes"),
+    addedBy: getAddedBy()
+  };
+
+  // local cache
+  if(editLeadIndex!==null){
+    leads[editLeadIndex]=lead;
+    editLeadIndex=null;
+  } else leads.unshift(lead);
+
+  save(KEY_LEADS_CACHE, leads);
+  clearLead();
+  renderAll();
+
+  // push to google sheet
+  await apiPost("lead", lead);
+}
+
+function clearLead(){
+  editLeadIndex=null;
+  setVal("leadName","");
+  setVal("leadPhone","");
+  setVal("leadArea","");
+  setVal("leadStatus","New Lead");
+  setVal("leadNotes","");
+}
+
+function renderLeads(){
+  const search=valOf("leadSearch").toLowerCase();
+  let list=[...leads];
+
+  if(leadFilter!=="All") list=list.filter(l=>l.status===leadFilter);
+  if(search){
+    list=list.filter(l=>
+      (l.name||"").toLowerCase().includes(search) ||
+      (l.phone||"").toLowerCase().includes(search) ||
+      (l.area||"").toLowerCase().includes(search)
+    );
+  }
+
+  setText("leadCountTxt", `${list.length} shown / ${leads.length}`);
+  const box=document.getElementById("leadList");
+  if(!list.length){
+    box.innerHTML=`<div class="note">No leads found.</div>`;
+    return;
+  }
+  box.innerHTML=list.map((l,i)=>leadItem(l,i)).join("");
+}
+
+function leadTag(status){
+  const map={"New Lead":"tNew","Contacted":"tContacted","Interested":"tInterested","Not interested":"tNot","Converted":"tConverted"};
+  return `<div class="tag ${map[status]||'tNew'}">${esc(status)}</div>`;
+}
+
+function leadItem(l,i){
+  return `
+    <div class="item">
+      <div class="itemTop">
+        <div>
+          <div class="title">${esc(l.name)}</div>
+          <div class="sub">📞 ${esc(l.phone)} ${l.area?` • 📍 ${esc(l.area)}`:""} ${l.addedBy?` • 👤 ${esc(l.addedBy)}`:""}</div>
+        </div>
+        ${leadTag(l.status)}
+      </div>
+      ${l.notes?`<div class="sub" style="margin-top:8px">📝 ${esc(l.notes)}</div>`:""}
+      <div class="miniRow">
+        <button class="miniBtn primary" onclick="addCallTask('${l.name}','${l.phone}','${l.area||""}','${l.status||""}')">📞 Add Call Task</button>
+        <button class="miniBtn" onclick="editLead(${i})">✏ Edit</button>
+        <button class="miniBtn danger" onclick="deleteLead(${i})">🗑 Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function editLead(i){
+  const l=leads[i];
+  editLeadIndex=i;
+  setVal("leadName", l.name||"");
+  setVal("leadPhone", l.phone||"");
+  setVal("leadArea", l.area||"");
+  setVal("leadStatus", l.status||"New Lead");
+  setVal("leadNotes", l.notes||"");
+  toast("Editing lead ✏️");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function deleteLead(i){
+  if(!confirm("Delete this lead from local cache? (Google sheet will still have it)")) return;
+  leads.splice(i,1);
+  save(KEY_LEADS_CACHE, leads);
+  renderAll();
+}
+
+function addCallTask(name, phone, area, status){
+  tasks.unshift({
+    title: `Call ${name} (${phone})`,
+    due: todayStr(),
+    priority:"High",
+    assigned:"Me",
+    notes:`Area: ${area} | Status: ${status}`,
+    status:"Pending",
+    addedBy: getAddedBy()
+  });
+  save(KEY_TASKS_CACHE, tasks);
+  renderAll();
+  toast("Call task added ✅");
+}
+
+/* =======================
+   TASKS
+======================= */
+function setTaskFilter(val, el){
+  taskFilter=val;
+  document.querySelectorAll("#taskChips .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+  renderTasks();
+}
+
+async function saveTask(){
+  const title=valOf("taskTitle");
+  if(!title) return toast("Task title required");
+
+  const t={
+    title,
+    due: valOf("taskDue") || todayStr(),
+    priority: valOf("taskPriority"),
+    assigned: valOf("taskAssign"),
+    notes: valOf("taskNotes"),
+    status:"Pending",
+    addedBy: getAddedBy()
+  };
+
+  if(editTaskIndex!==null){
+    // keep old done status if already done
+    const old=tasks[editTaskIndex];
+    if(old && old.status) t.status=old.status;
+    tasks[editTaskIndex]=t;
+    editTaskIndex=null;
+  } else tasks.unshift(t);
+
+  save(KEY_TASKS_CACHE, tasks);
+  clearTask();
+  renderAll();
+
+  await apiPost("task", t);
+}
+
+function clearTask(){
+  editTaskIndex=null;
+  setVal("taskTitle","");
+  setVal("taskDue", todayStr());
+  setVal("taskPriority","Medium");
+  setVal("taskAssign","Me");
+  setVal("taskNotes","");
+}
+
+function renderTasks(){
+  const search=valOf("taskSearch").toLowerCase();
+  const today=todayStr();
+  let list=[...tasks];
+
+  if(taskFilter==="Due Today") list=list.filter(t=>t.status!=="Done" && t.due===today);
+  else if(taskFilter==="Overdue") list=list.filter(t=>t.status!=="Done" && t.due && t.due < today);
+  else if(taskFilter==="Done") list=list.filter(t=>t.status==="Done");
+
+  if(search){
+    list=list.filter(t=>
+      (t.title||"").toLowerCase().includes(search) ||
+      (t.notes||"").toLowerCase().includes(search)
+    );
+  }
+
+  setText("taskCountTxt", `${list.length} shown / ${tasks.length}`);
+  const box=document.getElementById("taskList");
+  if(!list.length){
+    box.innerHTML=`<div class="note">No tasks found.</div>`;
+    return;
+  }
+
+  list.sort((a,b)=> (a.due||"").localeCompare(b.due||""));
+  box.innerHTML=list.map((t,i)=>taskItem(t,false,i)).join("");
+}
+
+function taskItem(t, compact, index=null){
+  const pri = t.priority==="High" ? "🔥 High" : (t.priority==="Low" ? "🟢 Low" : "🟡 Medium");
+  const tag = t.status==="Done" ? `<div class="tag tDone">Done</div>` : `<div class="tag tContacted">Pending</div>`;
+
+  return `
+    <div class="item">
+      <div class="itemTop">
+        <div>
+          <div class="title">${esc(t.title)}</div>
+          <div class="sub">📅 ${esc(t.due||"")} • ${pri} • 👤 ${esc(t.assigned||"")} ${t.addedBy?` • 🧑 ${esc(t.addedBy)}`:""}</div>
+        </div>
+        ${tag}
+      </div>
+      ${(!compact && t.notes) ? `<div class="sub" style="margin-top:8px">📝 ${esc(t.notes)}</div>` : ""}
+      ${index!==null ? `
+      <div class="miniRow">
+        ${t.status!=="Done"
+          ? `<button class="miniBtn primary" onclick="markDone(${index})">✅ Done</button>`
+          : `<button class="miniBtn" onclick="undoDone(${index})">↩ Undo</button>`
+        }
+        <button class="miniBtn" onclick="editTask(${index})">✏ Edit</button>
+        <button class="miniBtn danger" onclick="deleteTask(${index})">🗑 Delete</button>
+      </div>` : ""}
+    </div>
+  `;
+}
+
+function markDone(i){
+  tasks[i].status="Done";
+  save(KEY_TASKS_CACHE, tasks);
+  renderAll();
+}
+function undoDone(i){
+  tasks[i].status="Pending";
+  save(KEY_TASKS_CACHE, tasks);
+  renderAll();
+}
+function editTask(i){
+  const t=tasks[i];
+  editTaskIndex=i;
+  setVal("taskTitle", t.title||"");
+  setVal("taskDue", t.due||todayStr());
+  setVal("taskPriority", t.priority||"Medium");
+  setVal("taskAssign", t.assigned||"Me");
+  setVal("taskNotes", t.notes||"");
+  toast("Editing task ✏️");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function deleteTask(i){
+  if(!confirm("Delete this task from local cache? (Google sheet will still have it)")) return;
+  tasks.splice(i,1);
+  save(KEY_TASKS_CACHE, tasks);
+  renderAll();
+}
+
+/* =======================
+   VAULT (Shared Encrypted)
+======================= */
+function setVaultPin(){
+  const pin=valOf("vaultPinInput");
+  if(pin.length<4 || pin.length>8) return toast("PIN must be 4-8 digits");
+  vaultPinSession=pin;
+  toast("Vault unlocked ✅");
+  renderVaultList();
+}
+function clearVaultPin(){
+  vaultPinSession="";
+  setVal("vaultPinInput","");
+  toast("Vault locked 🔒");
+  renderVaultList();
+}
+
+async function saveVault(){
+  if(!vaultPinSession) return toast("Unlock vault first (enter PIN)");
+  const title=valOf("vTitle");
+  const secret=valOf("vSecret");
+  if(!title || !secret) return toast("Title & Password required");
+
+  const payload={
+    title,
+    category: valOf("vCat"),
+    username: valOf("vUser"),
+    secretEncrypted: await encryptText(vaultPinSession, secret),
+    notes: valOf("vNotes"),
+    addedBy: getAddedBy()
+  };
+
+  clearVaultForm();
+  toast("Saving to sheet...");
+
+  await apiPost("vault", payload);
+
+  // refresh list after save
+  await syncVaultOnly();
+}
+
+function clearVaultForm(){
+  setVal("vTitle","");
+  setVal("vCat","Bank");
+  setVal("vUser","");
+  setVal("vSecret","");
+  setVal("vNotes","");
+}
+
+function renderVaultList(){
+  const box=document.getElementById("vaultList");
+  const search=valOf("vaultSearch").toLowerCase();
+
+  let list=[...vaultRows];
+  if(search){
+    list=list.filter(v=>
+      (v.title||"").toLowerCase().includes(search) ||
+      (v.category||"").toLowerCase().includes(search) ||
+      (v.username||"").toLowerCase().includes(search)
+    );
+  }
+
+  if(!list.length){
+    box.innerHTML=`<div class="note">No vault entries found. Sync vault.</div>`;
+    return;
+  }
+
+  box.innerHTML=list.map((v,i)=>vaultItem(v,i)).join("");
+}
+
+function vaultItem(v,i){
+  const canShow = !!vaultPinSession;
+  return `
+    <div class="item">
+      <div class="itemTop">
+        <div>
+          <div class="title">${esc(v.title||"")}</div>
+          <div class="sub">🏷 ${esc(v.category||"")} ${v.username?` • 👤 ${esc(v.username)}`:""} ${v.addedBy?` • 🧑 ${esc(v.addedBy)}`:""}</div>
+        </div>
+        <div class="tag tInterested">Encrypted</div>
+      </div>
+
+      ${v.notes?`<div class="sub" style="margin-top:8px">📝 ${esc(v.notes)}</div>`:""}
+
+      <div class="miniRow">
+        <button class="miniBtn primary" onclick="copyVaultSecret(${i})">📋 Copy</button>
+        <button class="miniBtn" onclick="toggleVaultShow(${i}, this)" ${canShow?"":"disabled"}>${canShow?"👁 Show":"🔒 Locked"}</button>
+      </div>
+
+      <div class="note" id="vault-secret-${i}" data-show="0">••••••••</div>
+    </div>
+  `;
+}
+
+async function toggleVaultShow(i, btn){
+  if(!vaultPinSession) return toast("Unlock vault PIN first");
+  const el=document.getElementById("vault-secret-"+i);
+  const show=el.dataset.show==="1";
+  if(show){
+    el.textContent="••••••••";
+    el.dataset.show="0";
+    btn.textContent="👁 Show";
+  } else {
+    try{
+      const secret = await decryptText(vaultPinSession, vaultRows[i].secretEncrypted);
+      el.textContent=secret;
+      el.dataset.show="1";
+      btn.textContent="🙈 Hide";
+    }catch(e){
+      toast("Wrong PIN or corrupted secret ❌");
+    }
+  }
+}
+
+async function copyVaultSecret(i){
+  if(!vaultPinSession) return toast("Unlock vault PIN first");
+  try{
+    const secret = await decryptText(vaultPinSession, vaultRows[i].secretEncrypted);
+    await navigator.clipboard.writeText(secret);
+    toast("Copied ✅");
+  }catch(e){
+    toast("Copy failed ❌ (wrong PIN?)");
+  }
+}
+
+/* =======================
+   SYNC (Google Sheet)
+======================= */
+async function syncAll(){
+  await syncLeadsOnly();
+  await syncTasksOnly();
+  await syncVaultOnly();
+  renderAll();
+  toast("Sync done ✅");
+}
+
+async function syncLeadsOnly(){
+  const res = await apiPost("getLeads", {});
+  if(res?.ok){
+    leads = (res.data||[]).map(x=>({
+      name:x.name, phone:x.phone, area:x.area, status:x.status, notes:x.notes, addedBy:x.addedBy
+    }));
+    save(KEY_LEADS_CACHE, leads);
+  }
+}
+async function syncTasksOnly(){
+  const res = await apiPost("getTasks", {});
+  if(res?.ok){
+    tasks = (res.data||[]).map(x=>({
+      title:x.title, due:x.due, priority:x.priority, assigned:x.assigned, notes:x.notes, status:x.status, addedBy:x.addedBy
+    }));
+    save(KEY_TASKS_CACHE, tasks);
+  }
+}
+async function syncVaultOnly(){
+  const res = await apiPost("getVault", {});
+  if(res?.ok){
+    vaultRows = (res.data||[]).map(x=>({
+      title:x.title, category:x.category, username:x.username, secretEncrypted:x.secretEncrypted, notes:x.notes, addedBy:x.addedBy
+    }));
+    save(KEY_VAULT_CACHE, vaultRows);
+    renderVaultList();
+  }
+}
+
+async function apiPost(type, payload){
+  // if no API URL, just remain offline
+  if(!API_URL || API_URL.includes("PASTE_YOUR_WEBAPP_URL_HERE")){
+    syncStatus="offline";
+    updateSyncBadge();
+    // still succeed for local-only use
+    if(type.startsWith("get")) return {ok:true, data:[]};
+    toast("API not connected yet (paste webapp URL).");
+    return {ok:false};
+  }
+
+  try{
+    const res = await fetch(API_URL, {
+      method:"POST",
+      headers: {"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({type, payload})
+    });
+    const json = await res.json();
+    syncStatus="online";
+    updateSyncBadge();
+    return json;
+  }catch(err){
+    syncStatus="offline";
+    updateSyncBadge();
+    // do not break app
+    toast("Offline: saved in phone only (sync later).");
+    return {ok:false, error:String(err)};
+  }
+}
+
+function updateSyncBadge(){
+  const dot=document.querySelector("#syncBadge .dot");
+  const text=document.getElementById("syncText");
+  if(!dot || !text) return;
+
+  if(syncStatus==="online"){
+    dot.className="dot ok";
+    text.textContent="Online";
+  } else {
+    dot.className="dot warn";
+    text.textContent="Offline";
+  }
+}
+
+/* =======================
+   Tools + AddedBy
+======================= */
+function openTools(){
+  openModal("⚙ Tools", `
+    <p><b>Backup/Restore Local Cache</b> (for safety).</p>
+    <div class="btnRow">
+      <button class="btn btnSoft" onclick="backupLocal()">⬇ Backup</button>
+      <button class="btn btnSoft" onclick="restoreLocal()">⬆ Restore</button>
+    </div>
+    <div class="btnRow">
+      <button class="btn btnDanger" onclick="resetLocal()">🗑 Reset Local</button>
+    </div>
+    <div class="note">
+      Backup = downloads a file from phone. Restore = upload that file.
+    </div>
+  `);
+}
+
+function setAddedBy(){
+  openModal("Your Name", `
+    <p>This will show who added the lead/task/vault.</p>
+    <label>Name</label>
+    <input id="addedByInput" placeholder="Example: Bhoomika" value="${esc(getAddedBy())}">
+    <div class="btnRow">
+      <button class="btn btnPrimary" onclick="saveAddedBy()">✅ Save</button>
+    </div>
+  `);
+}
+function saveAddedBy(){
+  const n=(document.getElementById("addedByInput").value||"").trim();
+  if(!n) return toast("Enter name");
+  localStorage.setItem(KEY_USER, n);
+  closeModal();
+  toast("Saved ✅");
+  renderAll();
+}
+function getAddedBy(){
+  return localStorage.getItem(KEY_USER) || "Me";
+}
+
+/* =======================
+   Local Backup/Restore
+======================= */
+function backupLocal(){
+  const obj={
+    leads, tasks, vaultRows,
+    exportedAt: new Date().toISOString()
+  };
+  downloadFile(JSON.stringify(obj,null,2), "revelure_local_backup.json", "application/json");
+  toast("Backup downloaded ✅");
+}
+
+function restoreLocal(){
+  openModal("Restore Local Backup", `
+    <p>Upload <b>revelure_local_backup.json</b></p>
+    <input type="file" id="restoreFile" accept="application/json">
+    <div class="btnRow">
+      <button class="btn btnPrimary" onclick="doRestoreLocal()">⬆ Restore</button>
+    </div>
+  `);
+}
+
+function doRestoreLocal(){
+  const f=document.getElementById("restoreFile").files[0];
+  if(!f) return toast("Choose file first");
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const obj=JSON.parse(reader.result);
+      leads=obj.leads||[];
+      tasks=obj.tasks||[];
+      vaultRows=obj.vaultRows||[];
+      save(KEY_LEADS_CACHE, leads);
+      save(KEY_TASKS_CACHE, tasks);
+      save(KEY_VAULT_CACHE, vaultRows);
+      closeModal();
+      renderAll();
+      toast("Restored ✅");
+    }catch(e){
+      toast("Restore failed ❌");
+    }
+  };
+  reader.readAsText(f);
+}
+
+function resetLocal(){
+  if(!confirm("Clear local cache?")) return;
+  leads=[]; tasks=[]; vaultRows=[];
+  save(KEY_LEADS_CACHE, leads);
+  save(KEY_TASKS_CACHE, tasks);
+  save(KEY_VAULT_CACHE, vaultRows);
+  closeModal();
+  renderAll();
+  toast("Local cleared ✅");
+}
+
+/* =======================
+   Modal
+======================= */
+function openModal(title, bodyHTML){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=bodyHTML;
+  document.getElementById("modalBackdrop").style.display="flex";
+}
+function closeModal(){
+  document.getElementById("modalBackdrop").style.display="none";
+}
+
+/* =======================
+   Render All
+======================= */
+function renderAll(){
+  renderHome();
+  renderLeads();
+  renderTasks();
+  renderVaultList();
+}
+
+/* =======================
+   Encryption (PIN)
+   - AES-GCM using PIN derived key
+   - Stored in sheet as JSON string
+======================= */
+async function deriveKey(pin, saltB64){
+  const salt=b64ToBytes(saltB64);
+  const enc=new TextEncoder();
+  const baseKey=await crypto.subtle.importKey("raw", enc.encode(pin), {name:"PBKDF2"}, false, ["deriveKey"]);
+  return crypto.subtle.deriveKey(
+    {name:"PBKDF2", salt, iterations:100000, hash:"SHA-256"},
+    baseKey,
+    {name:"AES-GCM", length:256},
+    false,
+    ["encrypt","decrypt"]
+  );
+}
+async function encryptText(pin, plaintext){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const key  = await deriveKey(pin, bytesToB64(salt));
+  const data = new TextEncoder().encode(plaintext);
+  const ct   = await crypto.subtle.encrypt({name:"AES-GCM", iv}, key, data);
+
+  return JSON.stringify({
+    s: bytesToB64(salt),
+    i: bytesToB64(iv),
+    c: bytesToB64(new Uint8Array(ct))
+  });
+}
+async function decryptText(pin, encryptedJson){
+  const obj=JSON.parse(encryptedJson);
+  const key=await deriveKey(pin, obj.s);
+  const iv=b64ToBytes(obj.i);
+  const ct=b64ToBytes(obj.c);
+  const pt=await crypto.subtle.decrypt({name:"AES-GCM", iv}, key, ct);
+  return new TextDecoder().decode(pt);
+}
+function bytesToB64(bytes){ return btoa(String.fromCharCode(...bytes)); }
+function b64ToBytes(b64){
+  const bin=atob(b64);
+  const arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return arr;
+}
+
+/* =======================
+   Helpers
+======================= */
+function load(key, fallback){
+  try{
+    const raw=localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch(e){ return fallback; }
+}
+function save(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
+function esc(s=""){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function todayStr(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function valOf(id){ return (document.getElementById(id)?.value ?? "").trim(); }
+function setVal(id,val){ const el=document.getElementById(id); if(el) el.value=val; }
+function setText(id,val){ const el=document.getElementById(id); if(el) el.textContent=String(val); }
+function toast(msg){ alert(msg); }
+
+function downloadFile(content, filename, type){
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=filename;
+  document.body.appendChild(a);
+  a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// ✅ PWA - service worker register
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js")
+    .then(() => console.log("Service Worker Registered ✅"))
+    .catch(err => console.log("Service Worker Failed ❌", err));
+}
+
+</script>
+</body>
+</html>
