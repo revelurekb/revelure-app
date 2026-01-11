@@ -1,7 +1,7 @@
 {
   "name": "Revelure Internal App",
   "short_name": "Revelure",
-  "start_url": "./internalapp.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f4f6fb",
   "theme_color": "#2563eb",
@@ -18,3 +18,4 @@
     }
   ]
 }
+
