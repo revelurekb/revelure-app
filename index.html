@@ -447,6 +447,17 @@ buildScreens();
 renderAll();
 go("home");
 
+// ✅ Auto sync when app opens
+setTimeout(() => {
+  syncAll();
+}, 800);
+
+// ✅ Auto sync every 20 seconds (optional)
+setInterval(() => {
+  syncAll();
+}, 20000);
+
+
 /* =======================
    UI BUILD
 ======================= */
@@ -820,7 +831,12 @@ async function saveLead(){
   renderAll();
 
   // push to google sheet
-  await apiPost("lead", lead);
+ await apiPost("lead", lead);
+await syncLeadsOnly();   // ✅ pull latest from sheet
+renderLeads();
+renderHome();
+toast("Lead saved + synced ✅");
+
 }
 
 function clearLead(){
@@ -950,6 +966,11 @@ async function saveTask(){
   renderAll();
 
   await apiPost("task", t);
+await syncTasksOnly();   // ✅ pull latest from sheet
+renderTasks();
+renderHome();
+toast("Task saved + synced ✅");
+
 }
 
 function clearTask(){
@@ -1460,3 +1481,4 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+
